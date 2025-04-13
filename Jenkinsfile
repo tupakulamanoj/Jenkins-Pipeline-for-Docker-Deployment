@@ -3,7 +3,7 @@ pipeline {
     environment {
         IMAGE_NAME = 'your-image-name'
         CONTAINER_NAME = 'your-container-name'
-        HOST_PORT = '8081'   // Host port to access the application
+        HOST_PORT = '8081'
     }
     stages {
         stage('Clone Repo') {
@@ -15,10 +15,16 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 sh '''
+                # List files to verify we have the repository content
+                echo "Files in the build directory:"
+                ls -la
+                
+                # Build the Docker image using the current directory (with the cloned repo)
                 docker build -t $IMAGE_NAME:latest .
                 '''
             }
         }
+        
         stage('Stop Old Container') {
             steps {
                 sh '''
@@ -27,6 +33,7 @@ pipeline {
                 '''
             }
         }
+        
         stage('Deploy New Container') {
             steps {
                 sh '''
@@ -34,11 +41,14 @@ pipeline {
                 '''
             }
         }
+        
         stage('Verify Deployment') {
             steps {
                 sh '''
                 echo "Container is running at http://localhost:$HOST_PORT"
                 docker ps | grep $CONTAINER_NAME
+                echo "Container logs:"
+                docker logs $CONTAINER_NAME
                 '''
             }
         }
