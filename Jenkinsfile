@@ -1,8 +1,8 @@
 pipeline {
     agent any
     environment {
-        IMAGE_NAME = 'Dockerimage'
-        CONTAINER_NAME = 'DockerContainer'
+        IMAGE_NAME = 'your-image-name'
+        CONTAINER_NAME = 'your-container-name'
         HOST_PORT = '8081'
     }
     stages {
