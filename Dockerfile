@@ -4,8 +4,11 @@ FROM ubuntu:20.04
 # Install dependencies
 RUN apt-get update && apt-get install -y nginx
 
-# Create a simple index.html file to verify it's working
-RUN echo "<html><body><h1>Hello from Docker container deployed by Jenkins!</h1></body></html>" > /var/www/html/index.html
+# Copy the application files from your cloned repository to the nginx serving directory
+COPY . /var/www/html/
+
+# Ensure proper permissions
+RUN chown -R www-data:www-data /var/www/html/
 
 # Expose port
 EXPOSE 80
