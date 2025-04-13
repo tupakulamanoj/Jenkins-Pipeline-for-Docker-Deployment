@@ -34,7 +34,7 @@ pipeline {
         stage('Deploy New Container') {
             steps {
                 sh '''
-                docker run -d --name $CONTAINER_NAME -p $APP_PORT:$APP_PORT $IMAGE_NAME:latest
+                docker run -d --name $CONTAINER_NAME -p $APP_PORT:8080 $IMAGE_NAME:latest
                 '''
             }
         }
